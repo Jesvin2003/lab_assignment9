@@ -11,13 +11,14 @@ struct RecordType
 // Fill out this structure
 struct HashType
 {
-
+    struct RecordType record;
+    int isOccupied;
 };
 
 // Compute the hash function
 int hash(int x)
 {
-
+    return x % 100;
 }
 
 // parses input file to an integer array
@@ -73,14 +74,27 @@ void printRecords(struct RecordType pData[], int dataSz)
 // skip the indices which are free
 // the output will be in the format:
 // index x -> id, name, order -> id, name, order ....
-void displayRecordsInHash(struct HashType *pHashArray, int hashSz)
+void displayRecordsInHash(struct HashType* pHashArray, int hashSz)
 {
-	int i;
+    int i, j;
 
-	for (i=0;i<hashSz;++i)
-	{
-		// if index is occupied with any records, print all
-	}
+    for (i = 0; i < hashSz; ++i)
+    {
+        if (pHashArray[i].isOccupied == 1)
+        {
+            printf("Index %d -> %d, %c, %d -> ", i, pHashArray[i].record.id, pHashArray[i].record.name, pHashArray[i].record.order);
+
+            j = i + 1;
+
+            while (j < hashSz && pHashArray[j].isOccupied == 1)
+            {
+                printf("%d, %c, %d -> ", pHashArray[j].record.id, pHashArray[j].record.name, pHashArray[j].record.order);
+                ++j;
+            }
+
+            printf("\n");
+        }
+    }
 }
 
 int main(void)
